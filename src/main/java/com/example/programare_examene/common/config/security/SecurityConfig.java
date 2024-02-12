@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint(utils))
@@ -55,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/login").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll() // jwt auth
                 .anyRequest().authenticated()
-                .and()
-                .cors();
+                ;
     }
 }

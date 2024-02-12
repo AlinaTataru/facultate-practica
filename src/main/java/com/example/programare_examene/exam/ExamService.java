@@ -54,6 +54,29 @@ public class ExamService {
 					exam.setExamStatus(ExamStatus.REVIEW);
 					return exam;
 				})
+				.map(this::save)
+				.map(examMapper::toDto);
+	}
+
+	public Optional<ExamDto> setReviewExamToStatusApproved(UUID examId) {
+		return examRepository.findById(examId)
+				.filter(exam -> exam.getExamStatus() == ExamStatus.REVIEW)
+				.map(exam -> {
+					exam.setExamStatus(ExamStatus.APPROVED);
+					return exam;
+				})
+				.map(this::save)
+				.map(examMapper::toDto);
+	}
+
+	public Optional<ExamDto> setReviewExamToStatusRejected(UUID examId) {
+		return examRepository.findById(examId)
+				.filter(exam -> exam.getExamStatus() == ExamStatus.REVIEW)
+				.map(exam -> {
+					exam.setExamStatus(ExamStatus.REJECTED);
+					return exam;
+				})
+				.map(this::save)
 				.map(examMapper::toDto);
 	}
 }

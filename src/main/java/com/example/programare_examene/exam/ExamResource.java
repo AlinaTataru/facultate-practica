@@ -53,4 +53,18 @@ public class ExamResource {
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.noContent().build());
 	}
+
+	@PostMapping("/examId/{examId}/status/approved")
+	public ResponseEntity<ExamDto> setReviewExamToStatusApproved(@PathVariable UUID examId){
+		return examService.setReviewExamToStatusApproved(examId)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.noContent().build());
+	}
+
+	@PostMapping("/examId/{examId}/status/rejected")
+	public ResponseEntity<ExamDto> setReviewExamToStatusRejected(@PathVariable UUID examId){
+		return examService.setReviewExamToStatusRejected(examId)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.noContent().build());
+	}
 }
