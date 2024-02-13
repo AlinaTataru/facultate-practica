@@ -1,6 +1,5 @@
 package com.example.programare_examene.exam.transport;
 
-import com.example.programare_examene.exam.model.ExamStatus;
 import com.example.programare_examene.member.transport.UserDto;
 import lombok.Builder;
 import lombok.Data;
