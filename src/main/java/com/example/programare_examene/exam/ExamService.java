@@ -3,6 +3,7 @@ package com.example.programare_examene.exam;
 import com.example.programare_examene.exam.exception.ExamException;
 import com.example.programare_examene.exam.model.Exam;
 import com.example.programare_examene.exam.model.ExamStatus;
+import com.example.programare_examene.exam.transport.ExamCreateDto;
 import com.example.programare_examene.exam.transport.ExamDto;
 import com.example.programare_examene.exam.transport.ExamMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class ExamService {
 		return examRepository.findAll(pageable).map(examMapper::toDto);
 	}
 
-	public ExamDto scheduleProposedExam(ExamDto examDto) {
+	public ExamDto scheduleProposedExam(ExamCreateDto examDto) {
 		validateExamIsNotAlreadyProposedOrScheduled(examDto);
 		var exam = examMapper.toEntity(examDto);
 		exam.setExamStatus(ExamStatus.PROPOSED);
@@ -31,7 +32,7 @@ public class ExamService {
 		return examMapper.toDto(exam);
 	}
 
-	private void validateExamIsNotAlreadyProposedOrScheduled(ExamDto examDto) {
+	private void validateExamIsNotAlreadyProposedOrScheduled(ExamCreateDto examDto) {
 		examRepository.findByCurriculumAndScheduledDateTimeLessThanEqual(examDto.getCurriculum(), examDto.getScheduledDateTime())
 				.ifPresent(exam -> {throw ExamException.examScheduleAlreadyExists(exam.getCurriculum());} )
 			;
@@ -69,9 +70,9 @@ public class ExamService {
 				.map(examMapper::toDto);
 	}
 
-	public Optional<ExamDto> setReviewExamToStatusRejected(UUID examId) {
+	public Optional<ExamDto> setProposedOrReviewExamToStatusRejected(UUID examId) {
 		return examRepository.findById(examId)
-				.filter(exam -> exam.getExamStatus() == ExamStatus.REVIEW)
+				.filter(exam -> exam.getExamStatus() == ExamStatus.PROPOSED || exam.getExamStatus() == ExamStatus.REVIEW)
 				.map(exam -> {
 					exam.setExamStatus(ExamStatus.REJECTED);
 					return exam;

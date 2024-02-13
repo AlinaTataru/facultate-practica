@@ -7,6 +7,15 @@ Content-Type: application/json
     client.global.set("auth_token", response.body.result.token);
 %}
 
+### Authorization by token, part 1. Retrieve and save token.
+POST http://localhost:8080/login?username=grep&password=12345
+Content-Type: application/json
+
+> {%
+    console.log(response);
+    client.global.set("auth_token", response.body.result.token);
+%}
+
 ### Authorization by token, part 2. Use token to authorize.
 GET http://localhost:8080/api/exams
 Authorization: {{auth_token}}

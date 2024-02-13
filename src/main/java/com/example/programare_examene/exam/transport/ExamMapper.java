@@ -9,5 +9,5 @@ import org.mapstruct.Mapper;
 )
 public interface ExamMapper {
 	ExamDto toDto(Exam exam);
-	Exam toEntity(ExamDto examDto);
+    Exam toEntity(ExamCreateDto examCreateDto);
 }

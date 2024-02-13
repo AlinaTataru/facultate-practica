@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 
 import static com.example.programare_examene.common.util.Constants.ADMIN;
 import static com.example.programare_examene.common.util.Constants.DEFAULT_PASSWORD;
+import static com.example.programare_examene.common.util.Constants.GROUP_REPRESENTATIVE;
+import static com.example.programare_examene.common.util.Constants.HEAD_SECRETARY;
+import static com.example.programare_examene.common.util.Constants.TEACHER;
 
 @Service
 public class AppSetupService implements CommandLineRunner {
@@ -41,7 +44,27 @@ public class AppSetupService implements CommandLineRunner {
             member.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
             member.setActive(true);
             member.setRoles(roleRepository.findAll().stream().filter(it -> it.getType().equals(RoleType.ADMIN)).collect(Collectors.toSet()));
+            memberRepository.save(member);
 
+            member = new Member();
+            member.setUsername(GROUP_REPRESENTATIVE);
+            member.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+            member.setActive(true);
+            member.setRoles(roleRepository.findAll().stream().filter(it -> it.getType().equals(RoleType.GROUP_REPRESENTATIVE)).collect(Collectors.toSet()));
+            memberRepository.save(member);
+
+            member = new Member();
+            member.setUsername(TEACHER);
+            member.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+            member.setActive(true);
+            member.setRoles(roleRepository.findAll().stream().filter(it -> it.getType().equals(RoleType.TEACHER)).collect(Collectors.toSet()));
+            memberRepository.save(member);
+
+            member = new Member();
+            member.setUsername(HEAD_SECRETARY);
+            member.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+            member.setActive(true);
+            member.setRoles(roleRepository.findAll().stream().filter(it -> it.getType().equals(RoleType.HEAD_SECRETARY)).collect(Collectors.toSet()));
             memberRepository.save(member);
         }
     }
